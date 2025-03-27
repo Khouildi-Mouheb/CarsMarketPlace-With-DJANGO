@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>this the home page</h1>
+    <a href="{% url 'dashbord' %}">dashbord</a>
+    <br>
+    <a href="{% url 'car_shop' %}">view car shop</a>
+    <br>
+    <a href="{% url 'wishlist' %}">wishlist</a>
+    {% if request.user.is_authenticated %}
+        <p>hello {{request.user.username}} </p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">log out</button>
+        </form>
+    {% else %}
+        <br>
+        <a href="{% url 'login' %}">login</a>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashbord</title>
+</head>
+<body>
+    {% if user_cars %}
+        {% for car in user_cars %}
+            <p> {{car.brand}} </p>
+            <a href="{% url 'delete_car' car.id %}">delete</a>
+            <a href="{% url 'edit_car' car.id %}">edit</a>
+        {% endfor %}
+    {% endif %}
+    
+</body>
+</html>

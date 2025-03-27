@@ -1,0 +1,12 @@
+<h1 style="text-align: center;" > my wishlist</h1>
+<p> {{cars_number}} </p>
+{% for item in Wishlist_items %}
+    <h1>car</h1>
+    <p> {{item.car.model}} </p>
+    <p> {{item.car.owner.username}} </p>
+    <form action="{% url 'remove_from_wishlist' item.car.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">remove</button>
+    </form>
+{% endfor %}
+<a href="{% url 'home' %}">home</a>
