@@ -1,0 +1,11 @@
+<h1>edit rooms</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="room_edited_name">name:</label>
+    <input type="text" name="room_edited_name" id="room_edited_name" value="{{room.name}}">
+
+    <label for="room_edited_description">description:</label>
+    <input type="text" name="room_edited_description" id="room_edited_description" value="{{room.description}}">
+    <button type="submit">edit</button>
+</form>
+<a href="{% url 'home' %}">home</a>

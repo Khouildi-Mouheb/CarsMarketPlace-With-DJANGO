@@ -21,7 +21,7 @@ LOGIN_URL='login'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG',default=False,cast=bool)
 
-ALLOWED_HOSTS =[]
+ALLOWED_HOSTS =["*"]
 
 
 # Application definition
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'cars',
+    'rooms',
 ]
 
 MIDDLEWARE = [

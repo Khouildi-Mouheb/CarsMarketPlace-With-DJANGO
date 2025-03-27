@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{ room.name }}</h1>
+    <p> {{room.creator}} </p>
+    {% if request.user == room.creator %}
+        <a href="{% url 'edit_room' room.id %}" >edit room</a>
+        <br>
+        <a href="{% url 'delete_room' room.id %}" onclick="return confirm ('are you sure ?')">delete room</a>
+    {% endif %}
+</body>
+</html>

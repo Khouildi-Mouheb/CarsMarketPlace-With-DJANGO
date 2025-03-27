@@ -1,0 +1,22 @@
+<h2 style="text-align: center;">Rooms List</h2>
+<ul>
+    {% for room in rooms %}
+        <a href="{% url 'room_detail' room.id %}">{{ room.name }}</a>
+        <p>{{ room.description }}</p>
+        <p>Creator: {{ room.creator.username }}</p>
+        <p>Participants:
+            {% for participant in room.participants.all %}
+                {{ participant.username }}
+            {% endfor %}
+        </p>
+        <br>
+        {% if not request.user == room.creator %}
+            <a href="{% url 'join_room' room.id %}">Join Room</a>
+        {% endif %}
+        <br>
+    {% endfor %}
+</ul>
+<hr>
+<a href="{% url 'create_room' %}">Create Room</a>
+<hr>
+<a href="{% url 'home' %}">Home</a>

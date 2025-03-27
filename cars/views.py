@@ -3,12 +3,22 @@ from django.contrib.auth.decorators import login_required
 from .models import Car ,Wishlist
 from .forms import CarCreationForm
 from django.contrib import messages
+from django.db.models import Q
 
 
 def car_shop_view(request):
-    #fetch all cars from the database
-    cars=Car.objects.all()
-    data={'cars':cars}
+    #"q":is the name of the input and "query":is the value of the search input
+    query=request.GET.get('q')#retrieves the search term from the url query parameter
+    if query:
+        cars=Car.objects.filter(
+            #Q allows to perform complexe queries , like searching multiple fields
+            Q(model__icontains=query)|#search by title
+            Q(description__icontains=query)#serch by description
+        )
+    else:
+        #fetch all cars from the database
+        cars=Car.objects.all()
+    data={'cars':cars,'query':query}
     return render(request,'cars/car_shop.html',data)
 
 
