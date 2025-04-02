@@ -11,7 +11,17 @@
     {% if request.user == room.creator %}
         <a href="{% url 'edit_room' room.id %}" >edit room</a>
         <br>
-        <a href="{% url 'delete_room' room.id %}" onclick="return confirm ('are you sure ?')">delete room</a>
+        <a href="{% url 'delete_room' room.id %}" onclick="return confirm ('are you sure to delete this room ?')">delete room</a>
     {% endif %}
+    <h2>post in {{room.name}} </h2>
+    {% for post in posts %}
+        <p>@ {{post.author}} </p>
+        <p> {{post.content}} </p>
+        
+            <a href="{% url 'delete_post' post.id %}" onclick="return confirm ('are you sure to delete this post ?')">delete post</a>
+            <a href="{% url 'edit_post' post.id %}">edit post</a>
+        
+    {% endfor %}
+    <a href="{% url 'create_post' room.id %}">create post</a>
 </body>
 </html>

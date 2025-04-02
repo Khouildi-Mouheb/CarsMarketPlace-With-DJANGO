@@ -3,6 +3,7 @@ from .models import Room
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
+from social.models import Post
 
 @login_required
 def room_list_view(request):
@@ -14,11 +15,18 @@ def room_list_view(request):
     return render(request,'rooms/room_list.html',data)
 
 
+def public_rooms_view(request):
+    public_rooms=Room.objects.filter(is_private=False)
+    data={'public_rooms':public_rooms}
+    return render(request,'rooms/public_rooms.html',data)
+
+
 
 @login_required
 def room_detail_view(request,pk):
     room=get_object_or_404(Room,id=pk)
-    data={'room':room}
+    posts=Post.objects.filter(room=room)
+    data={'room':room,'posts':posts,'user':request.user}
     return render(request,'rooms/room_detail.html',data)
 
 @login_required
@@ -54,11 +62,16 @@ def create_room_view(request):
     if request.method=='POST':
         room_name=request.POST.get('name')
         room_description=request.POST.get('description')
+        is_private=request.POST.get('is_private')=='on'
         room=Room.objects.create(
             name=room_name,
             description=room_description,
             creator=request.user,#set the creator to the logged in user
+            is_private=is_private
         )
+        #ensure that the private room has 0 participants at the start
+        if room.is_private:
+            room.participants.clear()
         #redirect to the room list after the creation of the room
         return redirect('room_list')
     return render(request,'rooms/create_room.html')

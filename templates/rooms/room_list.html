@@ -1,4 +1,5 @@
 <h2 style="text-align: center;">Rooms List</h2>
+<a href="{% url 'public_rooms' %}">view public rooms</a>
 <ul>
     {% for room in rooms %}
         <a href="{% url 'room_detail' room.id %}">{{ room.name }}</a>

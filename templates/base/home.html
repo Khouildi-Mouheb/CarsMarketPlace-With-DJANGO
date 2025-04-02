@@ -7,12 +7,16 @@
 </head>
 <body>
     <h1 class='text-blue-500text-3xl'>this the home page</h1>
+    <br>
     <a href="{% url 'create_room' %}">create room</a>
+    <br>
     <a href="{% url 'dashbord' %}">dashbord</a>
     <br>
     <a href="{% url 'car_shop' %}">view car shop</a>
     <br>
     <a href="{% url 'wishlist' %}">wishlist</a>
+    <br>
+    <a href="{% url 'room_list' %}">view rooms</a>
     {% if request.user.is_authenticated %}
         <p>hello {{request.user.username}} </p>
         <form action="{% url 'logout' %}" method="post">
