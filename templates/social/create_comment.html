@@ -1,0 +1,8 @@
+<h2>create comment</h2>
+<p><strong>post:</strong> {{post.content}} </p>
+<form action="" method="post">
+    {% csrf_token %}
+    <label for="content">comment:</label>
+    <input type="text" name="content" id="content">
+    <button type="submit">comment</button>
+</form>

@@ -20,8 +20,21 @@
         
             <a href="{% url 'delete_post' post.id %}" onclick="return confirm ('are you sure to delete this post ?')">delete post</a>
             <a href="{% url 'edit_post' post.id %}">edit post</a>
-        
+
+            <div>
+                <h3>comments:</h3>
+                    {% for comment in post.comments.all %}
+                        <strong> {{comment.author}} </strong>
+                        <p> {{comment.content}} </p>
+                        <small><a href="{% url 'delete_comment' comment.id %}">delete</a></small>
+                        <small><a href="{% url 'edit_comment' comment.id %}">edit</a></small>
+                    {% endfor %}
+                    <a href="{% url 'create_comment' post.id %}">create comment</a>
+            </div>
+            <hr>
     {% endfor %}
     <a href="{% url 'create_post' room.id %}">create post</a>
+    <br>
+    <a href="{% url 'home' %}">home</a>
 </body>
 </html>

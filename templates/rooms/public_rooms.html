@@ -1,4 +1,6 @@
 {% for room in public_rooms %}
-    <p> {{room.name}} </p>
+<a href="{% url 'room_detail' room.id %}">{{room.name}}</a>
+<a href="{% url 'join_room' room.id %}">join</a>
+<hr>
 {% endfor %}
 <a href="{% url 'home' %}">home</a>

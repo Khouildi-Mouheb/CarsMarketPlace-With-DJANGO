@@ -8,6 +8,8 @@ __pycache__/
 #ignore virtual environment
 env/
 venv/
+images(rapport)/
+rapport_pfa1/
 
 #ignore database
 db.sqlite3
