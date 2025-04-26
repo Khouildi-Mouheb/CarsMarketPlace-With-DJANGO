@@ -24,8 +24,6 @@ def signup_view(request):
             return redirect('home') 
     else:
         form=CustomUserCreationForm()
-
-    #data=
     return render(request,'users/signup.html',{'form':form})
 
 @login_required

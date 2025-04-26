@@ -1,6 +1,31 @@
-{% for room in public_rooms %}
-<a href="{% url 'room_detail' room.id %}">{{room.name}}</a>
-<a href="{% url 'join_room' room.id %}">join</a>
-<hr>
-{% endfor %}
-<a href="{% url 'home' %}">home</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Rooms | CarHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+    <!-- Main Container -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md text-center">
+        <h1 class="text-2xl font-bold text-blue-600 mb-4">Public Rooms</h1>
+
+        <div class="space-y-4">
+            {% for room in public_rooms %}
+                <div class="p-4 bg-gray-50 rounded-lg shadow-md">
+                    <a href="{% url 'room_detail' room.id %}" class="text-lg font-medium text-blue-600 hover:underline">{{ room.name }}</a>
+                    <div class="mt-2">
+                        <a href="{% url 'join_room' room.id %}" class="px-3 py-2 bg-green-500 text-white rounded hover:bg-green-600">Join Room</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <hr class="my-6">
+        <a href="{% url 'home' %}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Home</a>
+    </div>
+
+</body>
+</html>

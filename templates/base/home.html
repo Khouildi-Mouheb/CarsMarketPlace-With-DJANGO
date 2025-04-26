@@ -1,38 +1,47 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
+    <title>Home | CarHub</title>
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/base/home.css' %}">
-
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <h1 class="hhh">this the home page</h1>
-    <br>
-    <a href="{% url 'create_room' %}">create room</a>
-    <br>
-    <a href="{% url 'dashbord' %}">dashbord</a>
-    <br>
-    <a href="{% url 'car_shop' %}">view car shop</a>
-    <br>
-    <a href="{% url 'wishlist' %}">wishlist</a>
-    <br>
-    <a href="{% url 'room_list' %}">view rooms</a>
-    {% if request.user.is_authenticated %}
-        <p>hello {{request.user.username}} </p>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">log out</button>
-        </form>
-    {% else %}
-        <br>
-        <a href="{% url 'login' %}">login</a>
-    {% endif %}
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-white text-2xl font-bold">CarHub</a>
+            <div class="space-x-4">
+                <a href="{% url 'create_room' %}" class="text-white hover:underline">Create Room</a>
+                <a href="{% url 'dashbord' %}" class="text-white hover:underline">Dashboard</a>
+                <a href="{% url 'car_shop' %}" class="text-white hover:underline">View Car Shop</a>
+                <a href="{% url 'wishlist' %}" class="text-white hover:underline">Wishlist</a>
+                <a href="{% url 'room_list' %}" class="text-white hover:underline">View Rooms</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto mt-10 p-6 bg-white shadow-md rounded-lg text-center">
+        <h1 class="text-3xl font-semibold text-blue-600">Welcome to CarHub</h1>
+        <p class="mt-4 text-gray-700">Your go-to platform for car listings, discussions, and more.</p>
+
+        <div class="mt-6">
+            {% if request.user.is_authenticated %}
+                <p class="text-lg font-medium text-gray-800">Hello, <strong>{{ request.user.username }}</strong>! 👋</p>
+                <form action="{% url 'logout' %}" method="post" class="mt-4">
+                    {% csrf_token %}
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Log Out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
 </body>
 </html>

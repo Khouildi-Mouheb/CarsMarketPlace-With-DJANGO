@@ -11,6 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+
+
 AUTH_USER_MODEL='users.CustomUser'
 
 LOGIN_REDIRECT_URL='home'
@@ -28,6 +30,7 @@ ALLOWED_HOSTS =["*"]
 
 INSTALLED_APPS = [
     'simpleui',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'marketplace.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR , 'templates')],
+        'DIRS': [os.path.join(BASE_DIR , 'templates')],#to let django know about the telmplate folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

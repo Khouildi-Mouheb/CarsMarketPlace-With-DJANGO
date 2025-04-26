@@ -1,12 +1,75 @@
-<h1 style="text-align: center;">this is the page for the detail of {{car.model}} </h1>
-<p> {{car.description}} </p>
-<form action="{% url 'add_to_wishlist' car.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit">add to wishlist</button>
-</form>
-<hr>
-<h2 style="text-align: center;">related cars</h2>
-{% for car in related_cars %}
-    <p> {{car.brand}} </p>
-{% endfor %}
-<a href="{% url 'home' %}">home</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ car.brand }} {{ car.model }} - Car Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="max-w-3xl mx-auto py-10 px-6 bg-white shadow-md rounded-lg">
+        <!-- Car Title -->
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">
+            {{ car.brand }} {{ car.model }}
+        </h1>
+
+        <!-- Car Image -->
+        {% if car.image %}
+            <div class="flex justify-center mb-6">
+                <img src="{{ car.image.url }}" alt="{{ car.model }}" class="w-full h-64 object-cover rounded-md">
+            </div>
+        {% endif %}
+
+        <!-- Car Attributes -->
+        <div class="grid grid-cols-2 gap-4 text-lg">
+            <p><strong>Owner:</strong> {{ car.owner.username }}</p>
+            <p><strong>Type:</strong> {{ car.get_type_display }}</p>
+            <p><strong>Price:</strong> ${{ car.price }}</p>
+            <p><strong>Location:</strong> {{ car.location|default:"Not specified" }}</p>
+            <p><strong>Listed On:</strong> {{ car.created_at|date:"F j, Y" }}</p>
+        </div>
+
+        <!-- Description -->
+        <p class="mt-6 text-gray-700 text-lg">{{ car.description }}</p>
+
+        <!-- Wishlist Button -->
+        <div class="mt-6 text-center">
+            <form action="{% url 'add_to_wishlist' car.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition">
+                    ⭐ Add to Wishlist
+                </button>
+            </form>
+        </div>
+
+        <hr class="my-8 border-gray-300">
+
+        <!-- Related Cars Section -->
+        <h2 class="text-2xl font-semibold text-center text-gray-700 mb-4">🚗 Related Cars 🚗</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for related_car in related_cars %}
+                <div class="p-4 bg-gray-200 rounded-lg text-center shadow-md">
+                    <p class="text-lg font-bold">{{ related_car.brand }} - {{ related_car.model }}</p>
+                    <p class="text-gray-700">${{ related_car.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Home Link -->
+        <div class="text-center mt-8">
+            <a href="{% url 'home' %}" class="text-blue-500 text-lg font-semibold hover:underline">
+                ⬅ Back to Home
+            </a>
+            <hr>
+
+         
+            <a href="{% url 'delete_car' car.id %}">delete</a>
+            <hr>
+            <a href="{% url 'edit_car' car.id %}">edit</a>
+        </div>
+    </div>
+
+</body>
+</html>

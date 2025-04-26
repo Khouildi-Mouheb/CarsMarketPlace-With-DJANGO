@@ -1,23 +1,60 @@
-<h2 style="text-align: center;">Rooms List</h2>
-<a href="{% url 'public_rooms' %}">view public rooms</a>
-<ul>
-    {% for room in rooms %}
-        <a href="{% url 'room_detail' room.id %}">{{ room.name }}</a>
-        <p>{{ room.description }}</p>
-        <p>Creator: {{ room.creator.username }}</p>
-        <p>Participants:
-            {% for participant in room.participants.all %}
-                {{ participant.username }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms List | CarHub</title>
+
+    {% load static %}
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-white text-2xl font-bold">CarHub</a>
+            <div class="space-x-4">
+                <a href="{% url 'create_room' %}" class="text-white hover:underline">Create Room</a>
+                <a href="{% url 'public_rooms' %}" class="text-white hover:underline">View Public Rooms</a>
+                <a href="{% url 'dashbord' %}" class="text-white hover:underline">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-center text-3xl font-semibold text-blue-600 mb-4">Rooms List</h2>
+
+        <div class="space-y-6">
+            {% for room in rooms %}
+                <div class="p-4 bg-gray-50 rounded-lg shadow-md">
+                    <a href="{% url 'room_detail' room.id %}" class="text-xl font-medium text-blue-600 hover:underline">{{ room.name }}</a>
+                    <p class="text-gray-700 mt-2">{{ room.description }}</p>
+                    <p class="font-medium text-gray-600">Creator: <span class="text-gray-800">{{ room.creator.username }}</span></p>
+
+                    <p class="font-medium text-gray-600">Participants:</p>
+                    <ul class="list-disc pl-5 text-gray-700">
+                        {% for participant in room.participants.all %}
+                            <li>{{ participant.username }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {% if not request.user == room.creator %}
+                        <div class="mt-4">
+                            <a href="{% url 'join_room' room.id %}" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Join Room</a>
+                        </div>
+                    {% endif %}
+                </div>
             {% endfor %}
-        </p>
-        <br>
-        {% if not request.user == room.creator %}
-            <a href="{% url 'join_room' room.id %}">Join Room</a>
-        {% endif %}
-        <br>
-    {% endfor %}
-</ul>
-<hr>
-<a href="{% url 'create_room' %}">Create Room</a>
-<hr>
-<a href="{% url 'home' %}">Home</a>
+        </div>
+
+        <hr class="my-6">
+        <div class="flex justify-center space-x-4">
+            <a href="{% url 'create_room' %}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Create Room</a>
+            <a href="{% url 'home' %}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Home</a>
+        </div>
+    </div>
+
+</body>
+</html>

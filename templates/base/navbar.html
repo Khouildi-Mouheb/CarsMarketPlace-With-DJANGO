@@ -1,0 +1,13 @@
+<!-- templates/base/navbar.html -->
+<nav class="bg-blue-600 p-4 shadow-lg">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <a href="{% url 'home' %}" class="text-white text-2xl font-bold">CarHub</a>
+        <div class="space-x-4">
+            <a href="{% url 'create_room' %}" class="text-white hover:underline">Create Room</a>
+            <a href="{% url 'dashbord' %}" class="text-white hover:underline">Dashboard</a>
+            <a href="{% url 'car_shop' %}" class="text-white hover:underline">View Car Shop</a>
+            <a href="{% url 'wishlist' %}" class="text-white hover:underline">Wishlist</a>
+            <a href="{% url 'room_list' %}" class="text-white hover:underline">View Rooms</a>
+        </div>
+    </div>
+</nav>

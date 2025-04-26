@@ -3,38 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ room.name }} | CarHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>{{ room.name }}</h1>
-    <p> {{room.creator}} </p>
-    {% if request.user == room.creator %}
-        <a href="{% url 'edit_room' room.id %}" >edit room</a>
-        <br>
-        <a href="{% url 'delete_room' room.id %}" onclick="return confirm ('are you sure to delete this room ?')">delete room</a>
-    {% endif %}
-    <h2>post in {{room.name}} </h2>
-    {% for post in posts %}
-        <p>@ {{post.author}} </p>
-        <p> {{post.content}} </p>
-        
-            <a href="{% url 'delete_post' post.id %}" onclick="return confirm ('are you sure to delete this post ?')">delete post</a>
-            <a href="{% url 'edit_post' post.id %}">edit post</a>
+<body class="bg-gray-100">
 
-            <div>
-                <h3>comments:</h3>
-                    {% for comment in post.comments.all %}
-                        <strong> {{comment.author}} </strong>
-                        <p> {{comment.content}} </p>
-                        <small><a href="{% url 'delete_comment' comment.id %}">delete</a></small>
-                        <small><a href="{% url 'edit_comment' comment.id %}">edit</a></small>
-                    {% endfor %}
-                    <a href="{% url 'create_comment' post.id %}">create comment</a>
-            </div>
-            <hr>
-    {% endfor %}
-    <a href="{% url 'create_post' room.id %}">create post</a>
-    <br>
-    <a href="{% url 'home' %}">home</a>
+    <!-- Include Navbar -->
+    {% include 'base/navbar.html' %}
+
+    <!-- Room Details -->
+    <div class="max-w-5xl mx-auto py-10 px-6 bg-white shadow-md rounded-lg">
+        <h1 class="text-4xl font-bold text-blue-600 text-center">{{ room.name }}</h1>
+        <p class="text-gray-700 text-lg text-center mt-2">Created by: <strong>{{ room.creator }}</strong></p>
+
+        {% if request.user == room.creator %}
+        <div class="flex justify-center space-x-4 mt-4">
+            <a href="{% url 'edit_room' room.id %}" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit Room</a>
+            <a href="{% url 'delete_room' room.id %}" onclick="return confirm('Are you sure you want to delete this room?')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete Room</a>
+        </div>
+        {% endif %}
+
+        <!-- Posts Section -->
+        <h2 class="text-3xl font-semibold text-blue-600 mt-6">Posts in {{ room.name }}</h2>
+        <div class="space-y-6 mt-4">
+            {% for post in posts %}
+                <div class="p-6 bg-gray-50 rounded-lg shadow-md">
+                    <p class="text-gray-700 font-medium">@ {{ post.author }}</p>
+                    <p class="mt-2 text-gray-900">{{ post.content }}</p>
+
+                    <div class="flex space-x-4 mt-4">
+                        <a href="{% url 'edit_post' post.id %}" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</a>
+                        <a href="{% url 'delete_post' post.id %}" onclick="return confirm('Are you sure you want to delete this post?')" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</a>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="mt-6">
+                        <h3 class="text-xl font-semibold text-gray-700">Comments:</h3>
+                        <div class="space-y-4 mt-2">
+                            {% for comment in post.comments.all %}
+                                <div class="p-4 bg-white rounded-md shadow">
+                                    <strong class="text-gray-700">{{ comment.author }}</strong>
+                                    <p class="text-gray-600">{{ comment.content }}</p>
+                                    <div class="text-sm mt-2 space-x-2">
+                                        <a href="{% url 'edit_comment' comment.id %}" class="text-blue-600 hover:underline">Edit</a>
+                                        <a href="{% url 'delete_comment' comment.id %}" class="text-red-600 hover:underline">Delete</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'create_comment' post.id %}" class="mt-4 inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Add Comment</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Create Post Button -->
+        <div class="text-center mt-8">
+            <a href="{% url 'create_post' room.id %}" class="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">Create Post</a>
+        </div>
+
+        <!-- Return Home -->
+        <div class="text-center mt-6">
+            <a href="{% url 'home' %}" class="text-gray-700 hover:underline">Return to Home</a>
+        </div>
+    </div>
+
 </body>
 </html>

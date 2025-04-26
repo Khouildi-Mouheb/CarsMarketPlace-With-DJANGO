@@ -1,7 +1,38 @@
-<h2>sign up</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CarHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">sign up</button>
-</form>
+    <div class="bg-white p-6 rounded-lg shadow-md w-96 text-center">
+        <h2 class="text-2xl font-bold mb-4">Create Your CarHub Account</h2>
+
+        <form action="" method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div class="space-y-3">
+                {% for field in form %}
+                    <div class="text-left">
+                        <label class="block font-medium text-gray-700">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition">
+                Sign Up
+            </button>
+        </form>
+
+        <p class="mt-4 text-gray-600">Already have an account?</p>
+        <a href="{% url 'login' %}" class="block mt-2 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+            Login
+        </a>
+    </div>
+
+</body>
+</html>

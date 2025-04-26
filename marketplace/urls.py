@@ -5,9 +5,17 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('',include('users.urls')),
+
+
     path('cars/',include('cars.urls')),
+
+
+
+
     path('rooms/',include('rooms.urls')),
     path('posts/',include('social.urls')),
+
+    
     path('admin/', admin.site.urls),
     
 ]

@@ -7,7 +7,6 @@ from django.db.models import Q
 
 
 def car_shop_view(request):
-    #"q":is the name of the input and "query":is the value of the search input
     query=request.GET.get('q')#retrieves the search term from the url query parameter
     if query:
         cars=Car.objects.filter(
@@ -20,7 +19,7 @@ def car_shop_view(request):
         cars=Car.objects.all()
     data={'cars':cars,'query':query}
     return render(request,'cars/car_shop.html',data)
-
+ 
 
 
 
@@ -31,7 +30,7 @@ def car_detail_view(request,pk):
     data={'car':car,'related_cars':related_cars}
     return render(request,'cars/car_detail.html',data)
 
-
+#ensure that only logged-in users can add a car
 @login_required
 def add_car(request):
     if request.method=='POST':
@@ -63,6 +62,7 @@ def delete_car_view(request,pk):
 
 @login_required
 def edit_car_view(request,pk):
+    #get the car to edit and ensure it belongs to the logged-in user
     car=get_object_or_404(Car,id=pk,owner=request.user)
     if request.method=='POST':
         #the the existing car data to the form for the editing

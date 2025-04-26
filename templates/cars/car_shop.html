@@ -1,40 +1,71 @@
-
 <!DOCTYPE html>
-
 {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cars for Sale - CarHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/car_shop.css' %}">
 </head>
-<body>
-    <h2>Cars For Sale</h2>
-    <a href="{% url 'home' %}">home</a>
-<ul>
-    <form action="" method="get">
-        <!--" action="" " submit the search query to the current page "name= "q" ":matches the query parameter in tyhe view-->
-        <!--"value={{query}}":keet the search term visible after the submit-->
-        <input type="text" name="q" placeholder="SEARCH CARS...." value="{{query}}">
-        <button type="submit">search...</button>
-    </form>
-    {% for car in cars %}
-        <h2>posted by {{car.owner.username}} </h2>
-        <h3>{{car.brand}}</h3>
-        <a href="{% url 'car_detail' car.id %}"> {{car.model}} </a>
-        
-        <h3>{{car.price}}</h3>
-        <p> {{car.desciption}} </p>
-        <p> {{car.type}} </p>
-        
-        {% if car.image %}
-            <img src="{{car.image.url}}" alt="{{car.model}}" style="width: 300px;">
-        {% else %}
-            <p><strong>no image available</strong></p>
-        {% endif %}
-    {% endfor %}
-</ul>
-<a href="{% url 'add_car' %}">add car</a>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold">CarHub</a>
+            <ul class="flex space-x-6">
+                <li><a href="{% url 'home' %}" class="hover:underline">🏠 Home</a></li>
+                <li><a href="{% url 'add_car' %}" class="hover:underline">➕ Add Car</a></li>
+                <li><a href="{% url 'dashbord' %}" class="hover:underline">👤 Profile</a></li>
+                <li><a href="{% url 'logout' %}" class="hover:underline">🚪 Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto py-10">
+        <h1 class="text-3xl font-bold text-center mb-6">🚗 Cars for Sale 🚗</h1>
+
+        <!-- Search Bar -->
+        <form action="" method="get" class="flex justify-center mb-6">
+            <input type="text" name="q" placeholder="Search cars..." value="{{ query }}" 
+                class="border border-gray-300 rounded-l-md p-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button type="submit" class="bg-blue-500 text-white px-4 rounded-r-md hover:bg-blue-600 transition">
+                Search
+            </button>
+        </form>
+
+        <!-- Cars Listing -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for car in cars %}
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <h2 class="text-lg font-semibold text-gray-700">Posted by: {{ car.owner.username }}</h2>
+                    <h3 class="text-xl font-bold">{{ car.brand }}</h3>
+                    <a href="{% url 'car_detail' car.id %}" class="text-blue-500 hover:underline text-lg">
+                        {{ car.model }}
+                    </a>
+
+                    <h3 class="text-green-600 font-semibold mt-2">${{ car.price }}</h3>
+                    <p class="text-gray-600">{{ car.description }}</p>
+                    <p class="font-medium text-gray-700">Type: {{ car.type }}</p>
+
+                    {% if car.image %}
+                        <img src="{{ car.image.url }}" alt="{{ car.model }}" class="w-full h-48 object-cover rounded-md mt-4">
+                    {% else %}
+                        <p class="text-red-500 font-bold">No image available</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Add Car Button -->
+        <div class="text-center mt-8">
+            <a href="{% url 'add_car' %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition">
+                ➕ Add Car
+            </a>
+        </div>
+    </div>
+
 </body>
 </html>
